@@ -1,0 +1,5 @@
+@KronApi_HostAddress = http://localhost:5167
+
+GET {{KronApi_HostAddress}}/weatherforecast/
+Accept: application/json
+###

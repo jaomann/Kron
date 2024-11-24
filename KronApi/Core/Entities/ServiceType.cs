@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace KronApi.Core.Entities;
 
-public class ServiceType
+public class ServiceType : EntityBase
 {
-    public uint Id { get; set; }
+    [MaxLength(45)]
     public string? Name { get; set; }
     public int Duration { get; set; }
     public decimal Price { get; set; }

@@ -19,10 +19,4 @@
       </Content>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Core\Contracts\Repository\" />
-      <Folder Include="Core\Contracts\Service\" />
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>

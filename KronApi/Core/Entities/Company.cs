@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace KronApi.Core.Entities;
 
-public class Company
+public class Company : EntityBase
 {
-    public Guid Id { get; set; }
     public string? Name { get; set; }
+    [MaxLength(14)]
     public string? CNPJ { get; set; }
     public Guid Owner { get; set; }
     public DateTime CreateTime { get; set; }

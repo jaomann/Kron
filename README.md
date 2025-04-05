@@ -1,6 +1,6 @@
-# KronApi - Sistema de Gerenciamento de Serviços
+# Kron - Sistema de Gerenciamento de Serviços
 
-KronApi é uma API RESTful desenvolvida em .NET Core para gerenciamento de serviços e agendamentos. O sistema permite que empresas gerenciem seus serviços, funcionários e agenda de forma eficiente.
+Sistema de gerência de horas e serviços, focado no fluxo de trabalho automatizado da empresa, com suporte para adição de empregados, emissão fiscal e cobranças
 
 ## 📑 Índice
 
@@ -13,7 +13,6 @@ KronApi é uma API RESTful desenvolvida em .NET Core para gerenciamento de servi
 - [Configuração](#-configuração)
 - [Cache](#-cache)
 - [Segurança](#-segurança)
-- [Contribuição](#-contribuição)
 - [Funcionalidades Futuras](#-funcionalidades-futuras)
 - [Suporte](#-suporte)
 

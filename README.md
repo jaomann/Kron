@@ -319,41 +319,17 @@ O sistema utiliza Redis para:
   - Proxy reverso com Nginx
   - Conexões seguras
 
-## 🤝 Contribuição
-
-1. Faça um Fork do projeto
-2. Crie uma Branch para sua Feature
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-3. Commit suas mudanças
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-4. Push para a Branch
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-5. Abra um Pull Request
-
-### Padrões de Código
-- Use PascalCase para classes e métodos
-- Use camelCase para variáveis
-- Adicione comentários quando necessário
-- Siga os princípios SOLID
-
-## 📝 Licença
-
-Este projeto está sob a licença [MIT](https://choosealicense.com/licenses/mit/).
 
 ## ✨ Funcionalidades Futuras
 
 - [ ] Implementação de JWT para autenticação
+- [ ] Validação por email
 - [ ] Dashboard de métricas
 - [ ] Notificações em tempo real
 - [ ] Relatórios personalizados
 - [ ] App mobile
 - [ ] Integração com sistemas de pagamento
+- [ ] Integração com emissão fiscal dos serviços prestados
 - [ ] Sistema de avaliações
 - [ ] API de geolocalização
 - [ ] Backup automático
@@ -364,13 +340,6 @@ Este projeto está sob a licença [MIT](https://choosealicense.com/licenses/mit/
 - Necessário implementar serviço de email
 - Cache precisa de mecanismo de limpeza periódica
 - Falta implementar recuperação de senha
-
-## 📞 Suporte
-
-Para suporte:
-- Email: [seu-email@exemplo.com]
-- Issues: Utilize o sistema de issues do GitHub
-- Discord: [link-do-servidor]
 
 ## 📊 Status do Projeto
 

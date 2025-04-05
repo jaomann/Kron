@@ -39,109 +39,78 @@ KronApi é uma API RESTful desenvolvida em .NET Core para gerenciamento de servi
 
 ```
 📦 KronApi (Solução)
-├── 📂 .github/                    # Configurações do GitHub Actions
-├── 📂 KronApi/                    # Projeto principal
-│   ├── 📂 Core/                   # Núcleo da aplicação
-│   │   ├── 📂 Entities/          # Modelos de domínio
-│   │   │   ├── User.cs           # Usuário do sistema
-│   │   │   ├── Company.cs        # Empresa
-│   │   │   ├── Week.cs           # Programação semanal
-│   │   │   ├── Day.cs            # Agendamentos diários
-│   │   │   └── Service.cs        # Serviços
-│   │   ├── 📂 Enums/             # Enumerações do sistema
-│   │   └── 📂 Contracts/         # Interfaces e contratos
-│   │       ├── 📂 Repository/    # Contratos dos repositórios
-│   │       └── 📂 Service/       # Contratos dos serviços
-│   ├── 📂 Infrastructure/         # Infraestrutura (recomendado)
-│   │   ├── 📂 Data/              # Acesso a dados
-│   │   ├── 📂 Cache/             # Implementação do Redis
-│   │   └── 📂 Email/             # Serviços de email
-│   ├── 📂 Repository/            # Implementação dos repositórios
-│   │   ├── 📂 Database/          # Contexto e configurações EF
-│   │   └── 📂 Configuration/     # Mapeamentos das entidades
-│   ├── 📂 Services/              # Lógica de negócios
-│   │   ├── 📂 Auth/             # Serviços de autenticação
-│   │   ├── 📂 Company/          # Serviços de empresa
-│   │   └── 📂 User/             # Serviços de usuário
-│   ├── 📂 Models/                # DTOs e ViewModels
-│   │   ├── 📂 Requests/         # Modelos de requisição
-│   │   └── 📂 Responses/        # Modelos de resposta
-│   ├── 📂 Extensions/            # Extensões e helpers
-│   ├── 📂 Middleware/            # Middlewares personalizados
-│   └── 📂 Configuration/         # Configurações da aplicação
-├── 📂 KronFront/                 # Frontend da aplicação
-├── 📂 nginx/                     # Configurações do Nginx
-└── 📂 mysql/                     # Scripts e configs do MySQL
-
-📄 Arquivos Principais
-├── Program.cs                    # Ponto de entrada e configuração
-├── appsettings.json             # Configurações da aplicação
-├── Dockerfile                    # Configuração do container
-└── docker-compose.yml           # Orquestração dos serviços
+├── 📂 Core/                      # Núcleo da aplicação
+│   ├── 📂 Contracts/            # Interfaces e contratos
+│   │   ├── 📂 Repository/       # Contratos dos repositórios
+│   │   └── 📂 Service/         # Contratos dos serviços
+│   └── 📂 Entities/            # Modelos de domínio
+│       ├── User.cs             # Usuário do sistema
+│       ├── Company.cs          # Empresa
+│       ├── Week.cs             # Programação semanal
+│       ├── Day.cs              # Agendamentos diários
+│       ├── Service.cs          # Serviços
+│       └── Address.cs          # Endereço
+├── 📂 Infrastructure/          # Infraestrutura
+│   ├── 📂 Cache/              # Implementação do Redis
+│   └── 📂 Email/              # Serviços de email
+├── 📂 Repository/             # Implementação dos repositórios
+│   ├── 📂 Database/          # Contexto e configurações EF
+│   └── UserRepository.cs, CompanyRepository.cs, etc.
+├── 📂 Services/               # Serviços da aplicação
+│   ├── UserService.cs        # Serviço de usuários
+│   ├── CompanyService.cs     # Serviço de empresas
+│   └── WeekService.cs, etc.  # Outros serviços
+├── 📂 Models/                 # DTOs
+│   ├── 📂 UserDTO/           # DTOs relacionados a usuários
+│   └── 📂 CompanyDTO/        # DTOs relacionados a empresas
+├── 📂 Extensions/            # Extensões e configurações
+│   └── ServiceCollectionExtensions.cs
+└── Program.cs                # Ponto de entrada e configuração da API
 ```
 
-### Recomendações de Estrutura
+### Principais Componentes
 
-1. **Separação de Responsabilidades**:
-   - Cada camada deve ter uma responsabilidade única
-   - Evite dependências circulares entre camadas
-   - Mantenha a direção do fluxo de dependência: Controllers → Services → Repositories
+1. **Core/**
+   - Contém as entidades de domínio e contratos
+   - Define as interfaces dos repositórios e serviços
+   - Mantém a lógica de negócio isolada
 
-2. **Organização de Serviços**:
-   - Agrupe serviços relacionados em namespaces
-   - Use injeção de dependência
-   - Implemente interfaces para todos os serviços
+2. **Infrastructure/**
+   - Implementações de serviços externos
+   - Cache com Redis
+   - Serviço de email
 
-3. **Padrões de Projeto**:
-   - Repository Pattern para acesso a dados
-   - Unit of Work para transações
-   - Factory Method para criação de objetos complexos
-   - Builder Pattern para DTOs complexos
+3. **Repository/**
+   - Implementação do padrão Repository
+   - Acesso a dados via Entity Framework
+   - Contexto do banco de dados
 
-4. **Boas Práticas**:
-   - Use pastas específicas para cada tipo de modelo (Request/Response)
-   - Mantenha middlewares em pasta separada
-   - Centralize configurações em arquivos específicos
-   - Use constants para strings e valores mágicos
+4. **Services/**
+   - Implementação dos serviços da aplicação
+   - Lógica de negócio
+   - Orquestração entre repositórios
 
-5. **Testes** (A implementar):
-   ```
-   📂 Tests/
-   ├── 📂 Unit/                   # Testes unitários
-   ├── 📂 Integration/            # Testes de integração
-   └── 📂 E2E/                    # Testes end-to-end
-   ```
+5. **Models/**
+   - DTOs para transferência de dados
+   - Separação por domínio (User, Company, etc.)
 
-### Entidades Principais
+6. **Extensions/**
+   - Extensões para configuração da aplicação
+   - Registro de serviços e dependências
 
-- **Company**: 
-  - Empresa prestadora de serviços
-  - Possui CNPJ, nome e proprietário
-  - Relacionada com usuários e agenda
+### Padrões Utilizados
 
-- **User**: 
-  - Usuários do sistema (funcionários)
-  - Autenticação e permissões
-  - Vinculado a uma empresa
+- **Dependency Injection**
+  - Registro de serviços via extensões
+  - Injeção de dependências nos controllers
 
-- **Week**: 
-  - Programação semanal
-  - Controle de horas
-  - Vinculada a uma empresa
+- **Repository Pattern**
+  - Abstração do acesso a dados
+  - Interfaces definidas em Core/Contracts
 
-- **Day**: 
-  - Agendamentos diários
-  - Controle de serviços
-  - Parte de uma semana
-
-- **Service**: 
-  - Serviços agendados
-  - Informações do cliente
-  - Duração e tipo
-
-- **Address**: 
-  - Endereço da empresa
-  - Informações de localização
+- **Service Layer**
+  - Orquestração da lógica de negócio
+  - Separação de responsabilidades
 
 ## 🚀 Instalação
 

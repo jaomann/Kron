@@ -13,7 +13,16 @@ public class CompanyRepository : BaseRepository<Company>, ICompanyRepository
         _context = context;
     }
     
-    public async Task<bool> IsExistAsync(Guid id) => await _context.Set<Company>().AnyAsync(c => c.Id == id && !c.IsDeleted);
-    public async Task<bool> IsExistByCnpjAsync(string cnpj) => await _context.Set<Company>().AnyAsync(c => c.CNPJ == cnpj && !c.IsDeleted);
-    public async Task<Company> GetByCnpjAsync(string cnpj) => await _context.Set<Company>().FirstOrDefaultAsync(c => c.CNPJ == cnpj);
+    public async Task<bool> IsExistAsync(Guid id) => await _context.Set<Company>().AsNoTracking()
+            .AnyAsync(c => c.id == id && !c.isDeleted);
+    public async Task<bool> IsExistByCnpjAsync(string cnpj) => await _context.Set<Company>().AsNoTracking()
+            .AnyAsync(c => c.CNPJ == cnpj && !c.isDeleted);
+    public async Task<Company?> GetByIdAsync(Guid Id) => await _context.Set<Company>().AsNoTracking()
+        .Include(c => c.Users)
+        .Include(c => c.Address)
+        .FirstOrDefaultAsync(c => c.id == Id);
+    public async Task<Company?> GetByCnpjAsync(string cnpj) => await _context.Set<Company>().AsNoTracking()
+        .Include(c => c.Users)
+        .Include(c => c.Address)
+        .FirstOrDefaultAsync(c => c.CNPJ == cnpj);
 }

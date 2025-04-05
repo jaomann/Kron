@@ -1,24 +1,46 @@
 using KronApi.Core.Contracts.Repository;
 using KronApi.Core.Contracts.Service;
+using Microsoft.Extensions.Configuration;
 
 namespace KronApi.Services;
 
-public class BaseService<T> : IBaseService<T> where T : class
+public abstract class BaseService<T> : IBaseService<T> where T : class
 {
-    private readonly IBaseRepository<T> _repository;
+    protected readonly IConfiguration Configuration;
+    protected readonly IBaseRepository<T> Repository;
 
-    public BaseService(IBaseRepository<T> repository)
+    protected BaseService(IConfiguration configuration, IBaseRepository<T> repository)
     {
-        _repository = repository;
+        Configuration = configuration;
+        Repository = repository;
     }
-    
-    public async Task Delete(Guid id) =>  await _repository.Delete(id);
 
-    public async Task Update(T entity) => await _repository.Update(entity);
+    public virtual async Task<T?> GetByIdAsync(Guid id) => await Repository.GetByIdAsync(id);
 
-    public async Task Create(T entity) => await _repository.Create(entity);
+    public virtual async Task<List<T>?> GetAllAsync()
+    {
+        var result = await Repository.GetAllAsync();
+        return result?.ToList();
+    }
 
-    public async Task<List<T>?> GetAllAsync() => await _repository.GetAllAsync();
+    public virtual async Task Create(T entity)
+    {
+        await Repository.CreateAsync(entity);
+    }
 
-    public async Task<T?> GetByIdAsync(Guid id) => await _repository.GetByIdAsync(id);
-}
+    public virtual async Task Update(T entity)
+    {
+        await Repository.UpdateAsync(entity);
+    }
+
+    public virtual async Task Delete(Guid id)
+    {
+        await Repository.DeleteAsync(id);
+    }
+
+    protected string GetConnectionString(string name)
+    {
+        return Configuration.GetConnectionString(name) 
+               ?? throw new InvalidOperationException($"Connection string '{name}' not found.");
+    }
+} 

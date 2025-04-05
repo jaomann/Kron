@@ -21,5 +21,12 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+bin/
+obj/
+*.user
+*.suo
+.vscode/
+.git/
+.env
 LICENSE
 README.md

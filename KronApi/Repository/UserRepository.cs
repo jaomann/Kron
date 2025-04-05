@@ -13,5 +13,13 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         _context = context;
     }
 
-    public async Task<bool> IsExistAsync(string email, string cpf) => await _context.Set<User>().AnyAsync(u => u.Email == email && u.Cpf == cpf && !u.IsDeleted);
+    public async Task<bool> IsExistAsync(string email, string cpf)
+    {
+        return await _context.User.AnyAsync(x => x.Email == email && x.Cpf == cpf);
+    }
+
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        return await _context.User.FirstOrDefaultAsync(x => x.Email == email);
+    }
 }

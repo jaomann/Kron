@@ -1,0 +1,62 @@
+﻿services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senharoot
+      MYSQL_DATABASE: krondb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: senharoot
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kronapi:
+    image: kronapi
+    build:
+      context: .
+      dockerfile: KronApi/Dockerfile
+    environment:
+      - ConnectionStrings__cnMySql=Server=db;Database=krondb;User=root;Password=senharoot;Pooling=True;ConnectionLifeTime=20;Convert Zero Datetime=true
+      - Redis__ConnectionString=redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  kronfront:
+    image: kronfront
+    build:
+      context: .
+      dockerfile: KronFront/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - kronapi
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - kronfront
+      - kronapi
+
+volumes:
+  mysql_data:
+  redis_data:

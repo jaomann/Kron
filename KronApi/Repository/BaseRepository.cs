@@ -11,23 +11,23 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : EntityBas
     {
         _context = context;
     }
-    public async Task Delete(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
         var entity = await GetByIdAsync(id);
         if (entity == null) return;
-        entity.IsDeleted = true;
-        await Update(entity);
+        entity.isDeleted = true;
+        await UpdateAsync(entity);
     }
-    public async Task Update(T entity)
+    public async Task UpdateAsync(T entity)
     {
         _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
     }
-    public async Task Create(T entity)
+    public async Task CreateAsync(T entity)
     {
         _context.Set<T>().Add(entity);
         await _context.SaveChangesAsync();
     }
-    public async Task<T?> GetByIdAsync(Guid id) => await _context.Set<T>().FindAsync(id);
+    public async Task<T?> GetByIdAsync(Guid id) => await _context.Set<T>().FirstOrDefaultAsync(e => e.id == id);
     public async Task<List<T>?> GetAllAsync() => await _context.Set<T>().ToListAsync();
 }

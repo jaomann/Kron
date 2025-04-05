@@ -10,6 +10,7 @@ public class Context : DbContext
     public DbSet<Service> Service { get; set; }
     public DbSet<Day> Day { get; set; }
     public DbSet<Company> Company { get; set; }
+    public DbSet<Address> Address { get; set; }
     public DbSet<ServiceType> ServiceType { get; set; }
     private readonly string _connectionString;
 
